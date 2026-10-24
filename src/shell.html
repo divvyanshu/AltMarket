@@ -1,0 +1,266 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AltMarket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/*BASE_CSS*/
+/*EXTRA_CSS*/
+</style>
+
+<div class="ann" role="note"><span><b id="annCount">Fund data</b> refreshed 24 Sep 2026</span><span>Returns as reported to APMI · TWRR, net of fees</span></div>
+
+<header class="top" id="top">
+  <div class="wrap hbar">
+    <a class="logo" href="#explore" aria-label="AltMarket home"><span class="mark">a</span><b>AltMarket</b></a>
+    <nav class="hnav" aria-label="Primary">
+      <a href="#explore" data-nav="explore">Explore funds</a>
+      <a href="#compare" data-nav="compare">Compare</a>
+      <a href="#managers" data-nav="managers">Managers</a>
+      <a href="#insights" data-nav="insights">Insights</a>
+      <a href="#fee-calculator" data-nav="fee-calculator">Tools</a>
+    </nav>
+    <div class="hright">
+      <button class="iconbtn" id="shortBtn" title="Your shortlist" aria-label="Your shortlist"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg><span class="ct" id="shortCt">0</span></button>
+      <button class="iconbtn" id="themeBtn" title="Switch theme" aria-label="Switch theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+      <div class="pillbar">
+        <button class="menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="mega"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu</button>
+        <button class="cta" type="button" data-callback="header"><span class="long">Request a </span><span class="short">Callback</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mega" id="mega" aria-hidden="true">
+  <div class="wrap">
+    <div class="megagrid" id="megaGrid"></div>
+    <div class="megafoot">
+      <div class="examples" style="margin:0"><button type="button" data-go="explore">Explore all funds</button><button type="button" data-go="compare">Compare</button><button type="button" data-go="managers">Managers</button><button type="button" data-go="research">Research notes</button></div>
+      <button class="btn" type="button" data-callback="menu">Talk to a specialist →</button>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- EXPLORE / HOME -->
+<div class="view" id="v-explore">
+  <div class="wrap">
+    <div class="hero v3">
+      <div>
+        <span class="eyebrow"><i></i>PMS · AIF · GIFT City · SIF</span>
+        <h1 class="disp">Alternative investing,<br>made <em class="blurin">comparable.</em></h1>
+        <p class="lede">Every PMS, AIF, SIF and GIFT City strategy in one place — searched the way you'd ask an advisor, with each return set against the benchmark it is measured by.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px"><button class="btn" type="button" data-go-screener id="exploreBtn">Explore all funds</button><button class="btn ghost" type="button" data-callback="hero">Request a callback</button></div>
+      </div>
+      <div class="heroviz" id="heroViz" aria-label="Growth of ₹1 crore"></div>
+    </div>
+    <div class="statrow" id="heroStats"></div>
+  </div>
+
+  <div class="ticker" style="margin-top:28px" aria-label="Funds ahead of their benchmark over three years"><span class="tlabel">Ahead of benchmark, 3 years</span><div class="ttrack" id="ticker"></div></div>
+
+
+
+  <section class="block">
+    <div class="wrap">
+      <h2 class="sec">Start from what you want</h2>
+      <p class="sub">Most investors don't start with a fund name. Pick a goal and we'll set the filters — you can adjust every one of them.</p>
+      <div class="goals" id="goals"></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2 class="sec">Market pulse</h2>
+      <p class="sub">The whole universe at a glance. Hover any mark for detail; click to jump into the funds behind it.</p>
+      <div class="pulsegrid" id="pulse"></div>
+      <p class="note" style="margin-top:12px">Built from the 1,202 strategies that publish a return history. Performance information shown here is not verified by SEBI.</p>
+    </div>
+  </section>
+
+  <div class="wrap" style="margin-top:26px">
+    <form class="ask" id="askForm" role="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="ask" type="text" autocomplete="off" placeholder="Try “small cap PMS beating benchmark, 3Y above 20%”" aria-label="Describe what you're looking for">
+      <button class="btn" type="submit">Search</button>
+    </form>
+    <div class="examples" id="examples"><span>Or try:</span></div>
+    <div class="understood" id="understood" hidden></div>
+  </div>
+
+  <section class="block">
+    <div class="wrap">
+      <p class="src" style="margin:0 0 10px;letter-spacing:.08em;text-transform:uppercase">Managers on AltMarket</p>
+      <div class="logos"><div class="ttrack" id="logos"></div></div>
+    </div>
+  </section>
+
+  <section class="block" id="screenerSec">
+    <div class="wrap">
+      <h2 class="sec">Screen the universe</h2>
+      <p class="sub">Filter by product, strategy and performance. Every return is shown against its benchmark.</p>
+    </div>
+    <div class="wrap screener">
+      <aside class="filters" id="filters" aria-label="Filters">
+        <div class="fclose"><b>Filters</b><button class="btn ghost" id="fDone" type="button">Show results</button></div>
+        <div class="fgroup"><h4>Product</h4><div class="pills" id="fType"></div></div>
+        <div class="fgroup"><h4>Strategy</h4><div class="pills" id="fTheme"></div></div>
+        <div class="fgroup">
+          <h4>Performance</h4>
+          <div class="field"><label for="fPeriod">Judge returns over</label>
+            <select id="fPeriod"><option value="3">1 year</option><option value="5" selected>3 years</option><option value="7">5 years</option><option value="8">Since inception</option></select></div>
+          <div class="field" style="margin-top:10px"><label for="fMin">Minimum annualised return</label>
+            <input type="range" id="fMin" min="-10" max="40" step="1" value="-10"><div class="rangeval"><span>Any</span><b class="num" id="fMinV">Any</b><span>40%</span></div></div>
+          <label class="tog" style="margin-top:10px"><input type="checkbox" id="fBeat"> Beat its benchmark</label>
+          <label class="tog" style="margin-top:6px"><input type="checkbox" id="fData"> Only funds with return data</label>
+        </div>
+        <div class="fgroup"><h4>Size</h4>
+          <div class="field"><label for="fAum">Minimum strategy AUM</label>
+            <select id="fAum"><option value="0">Any size</option><option value="100">₹100 Cr+</option><option value="500">₹500 Cr+</option><option value="1000">₹1,000 Cr+</option><option value="5000">₹5,000 Cr+</option></select></div></div>
+        <div class="fgroup"><h4>Manager</h4><div class="field mgrfield"><input type="text" id="fProv" placeholder="Search a manager" aria-label="Manager name" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="provList"><button type="button" id="provClear" hidden aria-label="Clear manager">&times;</button><div id="provList"></div></div></div>
+        <label class="tog"><input type="checkbox" id="fShort"> Only my shortlist</label>
+        <button class="btn ghost" id="fReset" type="button">Reset all filters</button>
+      </aside>
+      <div>
+        <div class="rhead">
+          <div class="count" id="count"></div>
+          <div class="rtools">
+            <button class="btn ghost mfilter" id="fOpen" type="button">Filters</button>
+            <label for="sortSel" class="src">Sort</label>
+            <select id="sortSel"><option value="rel">Featured first</option><option value="ret">Highest return</option><option value="alpha">Biggest lead over benchmark</option><option value="aum">Largest AUM</option><option value="az">Name A–Z</option></select>
+          </div>
+        </div>
+        <div class="tbl" id="tbl"><div class="loading">Loading fund data…</div></div>
+        <div class="more" id="more" hidden><button class="btn ghost" id="moreBtn" type="button">Show 40 more</button></div>
+        <p class="note" style="margin-top:12px">Returns are time-weighted (TWRR) at strategy level, net of fees and before your own tax, as reported to APMI. Performance information shown here is not verified by SEBI. Past performance does not indicate future results.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block"><div class="wrap">
+    <h2 class="sec">Learn before you invest</h2>
+    <p class="sub">Short, careful explainers on the questions investors actually ask.</p>
+    <div class="arts" id="homeArts"></div>
+  </div></section>
+</div>
+
+<!-- COMPARE -->
+<div class="view" id="v-compare" hidden>
+  <section class="block"><div class="wrap">
+    <h2 class="sec">Side by side</h2>
+    <p class="sub">Up to four funds. The best figure in each row is highlighted, and rows where every fund says the same thing fade back so the real differences stand out.</p>
+    <div class="rtools" style="margin-bottom:12px"><label class="tog"><input type="checkbox" id="onlyDiff"> Hide rows that are identical</label></div>
+    <div id="cmp"></div>
+  </div></section>
+</div>
+
+<!-- MANAGERS -->
+<div class="view" id="v-managers" hidden>
+  <section class="block"><div class="wrap">
+    <h2 class="sec">The managers behind the funds</h2>
+    <p class="sub">Grouped by portfolio manager. Tap one to see every strategy they run.</p>
+    <div class="rtools" style="margin-bottom:14px">
+      <input type="text" id="mSearch" placeholder="Search managers" aria-label="Search managers" style="border:1px solid var(--line2);background:var(--surface);border-radius:6px;padding:8px 10px;min-width:220px">
+      <select id="mSort" aria-label="Sort managers"><option value="n">Most strategies</option><option value="aum">Largest reported AUM</option><option value="y3">Best median 3Y</option></select>
+    </div>
+    <div class="mgrs" id="mgrs"></div>
+  </div></section>
+</div>
+
+<!-- RESEARCH -->
+<div class="view" id="v-research" hidden>
+  <section class="block"><div class="wrap">
+    <h2 class="sec">How people should reach fund data</h2>
+    <p class="sub">What the research says about making dense fund data usable — and exactly where each finding shows up in AltMarket.</p>
+    <div class="frust" style="margin-bottom:18px">
+      <div><s>A–Z list of 1,838 PMS names</s><b>Search by intent, not by name</b></div>
+      <div><s>Returns hidden inside long articles</s><b>Returns and benchmark on every row</b></div>
+      <div><s>“Call us for the factsheet”</s><b>Holdings, sectors and terms one tap away</b></div>
+      <div><s>Compare by opening 4 tabs</s><b>Compare tray with difference highlighting</b></div>
+      <div><s>Return with no benchmark</s><b>Every number sits next to its benchmark</b></div>
+      <div><s>Jargon first</s><b>A one-line verdict before the data</b></div>
+    </div>
+    <div class="rgrid" id="findings"></div>
+    <h2 class="sec" style="margin-top:34px;font-size:28px">Sources</h2>
+    <div class="srcs">
+      <p><a href="https://www.nngroup.com/videos/ux-rules-comparison-tables/" target="_blank" rel="noopener">NN/g — 3 rules for better comparison tables</a></p>
+      <p><a href="https://www.nngroup.com/articles/explicit-differences/" target="_blank" rel="noopener">NN/g — Explicitly state the difference between options</a></p>
+      <p><a href="https://www.nngroup.com/videos/big-tables-small-screens/" target="_blank" rel="noopener">NN/g — How to fit big tables on small screens</a></p>
+      <p><a href="https://www.nngroup.com/videos/comparison-tables/" target="_blank" rel="noopener">NN/g — When not to use comparison tables</a></p>
+      <p><a href="https://www.uxpin.com/studio/blog/what-is-progressive-disclosure/" target="_blank" rel="noopener">UXPin — Progressive disclosure</a></p>
+      <p><a href="https://blog.logrocket.com/ux-design/progressive-disclosure-ux-types-use-cases/" target="_blank" rel="noopener">LogRocket — Progressive disclosure types and use cases</a></p>
+      <p><a href="https://www.sebi.gov.in/legal/circulars/dec-2022/performance-benchmarking-and-reporting-of-performance-by-portfolio-managers_66256.html" target="_blank" rel="noopener">SEBI — Performance benchmarking &amp; reporting by portfolio managers</a></p>
+      <p><a href="https://aifpms.com/blog/performance-reporting-benchmarking-by-portfolio-manager/" target="_blank" rel="noopener">AIF PMS Experts — Performance reporting &amp; benchmarking</a></p>
+      <p><a href="https://www.morningstar.com/investing-terms/morningstar-style-box" target="_blank" rel="noopener">Morningstar — Style Box</a></p>
+      <p><a href="https://get.ycharts.com/platform/tools/fund-screener/" target="_blank" rel="noopener">YCharts — Fund screener &amp; AI chat</a></p>
+      <p><a href="https://www.fidelity.com/calculators-tools/investing/search-compare-investments" target="_blank" rel="noopener">Fidelity — Search &amp; compare investments</a></p>
+      <p><a href="https://www.wealthmanagement.com/artificial-intelligence/orion-to-release-new-ai-assistants-for-advisors-in-2026" target="_blank" rel="noopener">WealthManagement — Orion's natural-language assistants (2026)</a></p>
+      <p><a href="https://pmsbazaar.com/" target="_blank" rel="noopener">PMS Bazaar — incumbent PMS/AIF platform</a></p>
+      <p><a href="https://www.altportfunds.com/" target="_blank" rel="noopener">ALTPORT — fund data source</a></p>
+    </div>
+  </div></section>
+</div>
+
+<!-- CONTENT PAGE -->
+<div class="view" id="v-page" hidden></div>
+
+<section class="wrap" id="bandWrap" style="margin-top:20px">
+  <div class="band"><div><h3>Not sure where to start? <em>Ask a specialist.</em></h3><p>A short call to understand your goals, ticket size and horizon — then a shortlist you can compare right here.</p></div><button class="btn" type="button" data-callback="band">Request a callback →</button></div>
+</section>
+</main>
+
+<footer class="v3"><div class="wrap">
+  <div class="fgrid" id="fgrid"></div>
+  <div class="legalrow">
+    <a href="#privacy">Privacy Policy</a><span class="sep">|</span><a href="#terms">Terms of Use</a><span class="sep">|</span><a href="#disclaimer">Disclaimer</a><span class="sep">|</span><a href="#grievance">Grievance Redressal</a>
+    <span class="copy" id="regLine">© 2026 AltMarket</span>
+  </div>
+  <div class="fdisc" id="siteDisclaimer">
+    <h6>Disclaimer &amp; risk factors</h6>
+    <p>AltMarket compiles the information on this site — manager details, investment approaches, assets under management, returns, fees and portfolio disclosures — from sources in the public domain and from material shared by the portfolio managers and fund houses themselves. The three sources we rely on are named on every scheme page. We take care over how that material is collected, reconciled and compared, but we do not audit it and we cannot guarantee that it is accurate, complete, current or compliant in every respect. Where a manager has filed a figure we consider implausible we say so rather than silently correct it. AltMarket accepts no liability for any error or omission in the data, for any analysis built on it, or for any loss arising from a decision taken on the basis of it. Verify every figure against the manager's own disclosure document and factsheet before you invest.</p>
+    <p>Nothing on this site is a recommendation, an offer or a solicitation to invest in any scheme, and nothing here is investment, legal or tax advice for your particular circumstances. The name of a scheme, its strategy label or its position in any list, screen or comparison says nothing about its prospects. There is no assurance that any scheme will meet its stated objective. Performance shown is time-weighted (TWRR) at the strategy level as filed by the manager, annualised beyond one year, net of fees and before your own tax — an individual investor's realised return will differ depending on entry date, cash flows, ticket size and share class. Past performance is not a guide to future performance and does not guarantee it. <b>Performance information published here is not verified by SEBI, nor has SEBI certified its accuracy or adequacy.</b></p>
+    <p>Investments in portfolio management services, alternative investment funds, specialised investment funds, GIFT City funds and mutual funds carry market risk, including the risk of loss of capital, and many carry lock-ins and limited liquidity. Read all scheme-related documents carefully before investing. AltMarket acts as a distributor, not as an adviser or a portfolio manager, and may receive commission or distribution fees from the manager of a scheme you invest in through us; that arrangement does not change the figures shown on this site. Investors remain responsible for their own investment decisions and for validating the information they rely on. Where a "typical minimum" is shown, it is the regulatory minimum for that vehicle, not a term of the particular scheme.</p>
+    <p class="fregline" id="discReg"></p>
+  </div>
+</div></footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Fund details" aria-hidden="true"></aside>
+<div class="tray" id="tray" aria-live="polite"><div class="slots" id="slots"></div><button class="btn" id="goCmp" type="button">Compare</button></div>
+<div class="fab"><button type="button" data-callback="fab"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8 9.8a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z"/></svg>Request a callback</button></div>
+
+<div class="modal" id="cbModal" role="dialog" aria-modal="true" aria-labelledby="cbTitle" aria-hidden="true">
+  <div class="mbox">
+    <button class="mclose" type="button" data-cbclose aria-label="Close">×</button>
+    <div class="mleft">
+      <span class="mtag">Start your investment journey</span>
+      <h3>Talk to a specialist.<br><em>Invest with clarity.</em></h3>
+      <p>Whether it's your first PMS or a family allocation across private credit and GIFT City, we'll help you compare the options on the numbers — not the pitch.</p>
+      <ul class="mlist">
+        <li><i>1</i>A specialist calls within one business day</li>
+        <li><i>2</i>We map your ticket size, horizon and goals</li>
+        <li><i>3</i>You get a shortlist to compare on AltMarket</li>
+      </ul>
+      <p class="mfine">No obligation. Your details are used only to respond to this request — see our Privacy Policy.</p>
+    </div>
+    <div class="mright" id="cbRight"></div>
+  </div>
+</div>
+
+
+<div class="chatfab"><button type="button" id="chatOpen" aria-label="Ask the AltMarket assistant"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 01-9 8.4 8.6 8.6 0 01-3.8-.9L3 20.5l1.6-4.9A8.4 8.4 0 013.7 11 8.4 8.4 0 0112 2.6a8.4 8.4 0 019 8.9z"/></svg><span class="cflabel">Ask AltMarket</span></button></div>
+<aside class="chatpanel" id="chatPanel" aria-hidden="true" aria-label="AltMarket assistant">
+  <div class="chathead"><div><b>AltMarket assistant</b><span id="chatSub">Searches every scheme · books a callback</span></div><button type="button" id="chatClose" aria-label="Close assistant">×</button></div>
+  <div class="chatlog" id="chatLog"></div>
+  <form class="chatbar" id="chatForm"><input id="chatInput" autocomplete="off" placeholder="Ask about a fund, a strategy, or book a call"><button class="btn" id="chatSend" type="submit" aria-label="Send">↑</button></form>
+  <p class="chatfoot">The assistant uses AltMarket's fund data and can arrange a callback. It is not investment advice, and it can make mistakes — check anything important against the scheme's own documents.</p>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+/*PAGES_JS*/
+</script>
+<script>
+/*APP_JS*/
+</script>
