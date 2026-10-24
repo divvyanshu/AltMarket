@@ -132,7 +132,8 @@ function sortList(L,S,P){const nv=v=>v==null?-1e9:v;
   else if(S==="az")L.sort((a,b)=>a.n.localeCompare(b.n));
   else L.sort((a,b)=>(b.f||0)-(a.f||0)||(b.r?1:0)-(a.r?1:0)||nv(b.aum)-nv(a.aum));
   return L}
-const filtered=()=>sortList(filterWith(state),state.sort,state.period);
+/* let, not const: v4.9 wraps this to scope the screener's universe */
+let filtered=()=>sortList(filterWith(state),state.sort,state.period);
 function spark(f){
   if(!f.r)return '<span class="na" style="font-size:12px">No data</span>';
   const idx=[3,5,7,8].filter(i=>f.r[i]!=null);if(!idx.length)return '<span class="na">—</span>';
