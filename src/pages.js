@@ -231,6 +231,18 @@ window.AV_FIRM={
  name:"AltMarket",
  entity:"AltMarket",
  role:"distributor",
+
+ /* ── Lead capture ──
+    Paste a form endpoint here and the callback form posts to it. Leave blank
+    and the form falls back to the artifact database, then to a pre-filled
+    email, so an enquiry is never silently dropped.
+
+    Web3Forms  — get a key at web3forms.com (email only, no account):
+      leadEndpoint:"https://api.web3forms.com/submit", leadAccessKey:"your-key"
+    Formspree  — create a form, then:
+      leadEndpoint:"https://formspree.io/f/your-form-id", leadAccessKey:"" */
+ leadEndpoint:"",
+ leadAccessKey:"",
  apmi:"AMP0005858",
  arn:"ARN13934",
  contactName:"Aarti Nagpal",
