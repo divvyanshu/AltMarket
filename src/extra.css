@@ -1045,3 +1045,15 @@ html{overflow-x:hidden}
   .picklist .pickrow:not(.pickcols) .pr i{display:block}
 }
 @media (max-width:560px){.pickrets{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+
+/* ── which filters are on, beside the results ── */
+.activef{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-2px 0 12px}
+.activef .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-right:2px}
+.activef .chip{background:var(--tint);border:1px solid var(--tint2);color:var(--acc-ink);
+  border-radius:5px;padding:3px 4px 3px 9px;font-size:13px;display:inline-flex;align-items:center;gap:4px;
+  max-width:260px}
+.activef .chip button{border:0;background:transparent;color:inherit;opacity:.6;padding:0 3px;
+  font-size:15px;line-height:1;cursor:pointer}
+.activef .chip button:hover{opacity:1}
+.activef .linkbtn{font-size:12.5px;margin-left:2px}
+@media (max-width:560px){.activef .chip{max-width:100%}}

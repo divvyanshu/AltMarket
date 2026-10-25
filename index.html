@@ -1309,6 +1309,18 @@ html{overflow-x:hidden}
 }
 @media (max-width:560px){.pickrets{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 
+/* ── which filters are on, beside the results ── */
+.activef{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:-2px 0 12px}
+.activef .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-right:2px}
+.activef .chip{background:var(--tint);border:1px solid var(--tint2);color:var(--acc-ink);
+  border-radius:5px;padding:3px 4px 3px 9px;font-size:13px;display:inline-flex;align-items:center;gap:4px;
+  max-width:260px}
+.activef .chip button{border:0;background:transparent;color:inherit;opacity:.6;padding:0 3px;
+  font-size:15px;line-height:1;cursor:pointer}
+.activef .chip button:hover{opacity:1}
+.activef .linkbtn{font-size:12.5px;margin-left:2px}
+@media (max-width:560px){.activef .chip{max-width:100%}}
+
 </style>
 
 <div class="ann" role="note"><span><b id="annCount">Fund data</b> refreshed 24 Sep 2026</span><span>Returns as reported to APMI · TWRR, net of fees</span></div>
@@ -5059,6 +5071,75 @@ disclosureToggle=function(){
   const el=$("#fUndisclosed");
   if(el){const w=el.closest(".tog");if(w){const n=w.nextElementSibling;if(n&&n.classList.contains("src"))n.remove();w.remove()}}
 };
+
+
+/* ─── v5.0 — say which filters are on, beside the results ───
+
+   The count read "81 of 2,084 funds match" without saying what the match was
+   against. Every active filter lived in the sidebar, which is collapsed on a
+   phone and off to the side on a laptop, so a narrowed list could look like
+   the whole market. Each filter now appears as a removable chip above the
+   results, with one control to clear them all. */
+
+function activeFilters(){
+  const out=[];
+  state.types.forEach(k=>{
+    const label=k.charAt(1)===":"?k.slice(2):tname(k);
+    out.push({k:"type:"+k,label:label});
+  });
+  state.themes.forEach(t=>out.push({k:"theme:"+t,label:t}));
+  if(state.houseKey)out.push({k:"house",label:state.houseKey});
+  else if(state.prov)out.push({k:"prov",label:'Manager "'+state.prov+'"'});
+  if(state.min>-10)out.push({k:"min",label:PER[state.period]+" at least "+state.min+"%"});
+  if(state.beat)out.push({k:"beat",label:"Beat its benchmark"});
+  if(state.data)out.push({k:"data",label:"Has "+PER[state.period]+" data"});
+  if(state.aum)out.push({k:"aum",label:"₹"+Number(state.aum).toLocaleString("en-IN")+" Cr or larger"});
+  if(state.onlyShort)out.push({k:"short",label:"My shortlist"});
+  return out;
+}
+
+function clearFilter(k){
+  const [kind,...rest]=k.split(":");const val=rest.join(":");
+  if(kind==="type")state.types.delete(val);
+  else if(kind==="theme")state.themes.delete(val);
+  else if(kind==="house"){state.houseKey="";state.prov=""}
+  else if(kind==="prov"){state.prov="";state.houseKey=""}
+  else if(kind==="min")state.min=-10;
+  else if(kind==="beat")state.beat=false;
+  else if(kind==="data")state.data=false;
+  else if(kind==="aum")state.aum=0;
+  else if(kind==="short")state.onlyShort=false;
+  state.q=[];
+  apply();
+}
+
+function activeFilterBar(){
+  const f=activeFilters();
+  let host=$("#activeFilters");
+  if(!f.length){if(host)host.remove();return}
+  if(!host){
+    const head=$(".rhead");if(!head)return;
+    head.insertAdjacentHTML("afterend",'<div id="activeFilters" class="activef"></div>');
+    host=$("#activeFilters");
+  }
+  host.innerHTML=`<span class="k">Filtered by</span>`+
+    f.map(x=>`<span class="chip">${esc(x.label)}<button type="button" data-clearf="${esc(x.k)}" aria-label="Remove ${esc(x.label)}">×</button></span>`).join("")+
+    `<button type="button" class="linkbtn" data-clearall>Clear all</button>`;
+}
+
+var _rlActive=renderList;
+renderList=function(){
+  const r=_rlActive.apply(this,arguments);
+  activeFilterBar();
+  return r;
+};
+
+document.addEventListener("click",function(e){
+  const t=e.target.closest("[data-clearf],[data-clearall]");
+  if(!t)return;
+  if(t.hasAttribute("data-clearall")){state=defaultState();apply();return}
+  clearFilter(t.dataset.clearf);
+},true);
 
 $("#examples").insertAdjacentHTML("beforeend",EX.map(x=>`<button type="button" data-ex="${esc(x)}">${esc(x)}</button>`).join(""));
 $("#shortCt").textContent=short.size;
