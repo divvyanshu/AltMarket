@@ -213,7 +213,13 @@ pickerHTML=function(){
      <option value="aum"${PICK.sort==="aum"?" selected":""}>Largest AUM</option>
     </select>
    </div>
-   <div class="picklist">${rows.length?rows.map(f=>{
+   <div class="picklist">${rows.length?`<div class="pickrow pickcols" aria-hidden="true">
+     <div class="pickname"></div>
+     <div class="pickrets">${PICK_PERIODS.map(i=>{
+       const on=PICK_SORTK[PICK.sort]===i;
+       return `<span class="pr${on?" on":""}"><i>${esc(PER[i]==="Since inc."?"S.Inc":PER[i])}</i></span>`}).join("")}
+      <span class="pr vs"><i>vs index 3Y</i></span></div>
+     <span></span></div>`:""}${rows.length?rows.map(f=>{
      const si=PICK_SORTK[PICK.sort];
      return `<div class="pickrow">
      <div class="pickname"><b>${esc(deCaps(f.n))}</b><span>${esc(houseName(f.p)||f.m||"Manager not listed")}</span>
