@@ -5014,6 +5014,20 @@ statsHTML=function(){
   return h.replace(/strategies tracked/,"in the screener");
 };
 
+/* ─── the disclosure toggle comes off the screener ───
+   The switch and its explanation were a maintainer's note on a visitor's page.
+   What the screener holds back is explained where it belongs — the methodology
+   and the product pages — not in the filter rail.
+
+   Anyone who had switched it on while it existed keeps the setting in local
+   storage, and with no control left they would be stuck seeing the hidden rows
+   for good, so it is cleared on load. */
+try{store.set("showUndisclosed",0)}catch(e){}
+disclosureToggle=function(){
+  const el=$("#fUndisclosed");
+  if(el){const w=el.closest(".tog");if(w){const n=w.nextElementSibling;if(n&&n.classList.contains("src"))n.remove();w.remove()}}
+};
+
 $("#examples").insertAdjacentHTML("beforeend",EX.map(x=>`<button type="button" data-ex="${esc(x)}">${esc(x)}</button>`).join(""));
 $("#shortCt").textContent=short.size;
 $("#findings").innerHTML=FIND.map(f=>`<article class="finding"><small>${f[0]}</small><h4>${f[1]}</h4><p>${f[2]}</p><div class="how"><b>In AltMarket:</b> ${f[3]}</div></article>`).join("");

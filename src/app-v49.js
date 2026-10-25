@@ -61,3 +61,17 @@ statsHTML=function(){
   const h=_statsProd.apply(this,arguments);
   return h.replace(/strategies tracked/,"in the screener");
 };
+
+/* ─── the disclosure toggle comes off the screener ───
+   The switch and its explanation were a maintainer's note on a visitor's page.
+   What the screener holds back is explained where it belongs — the methodology
+   and the product pages — not in the filter rail.
+
+   Anyone who had switched it on while it existed keeps the setting in local
+   storage, and with no control left they would be stuck seeing the hidden rows
+   for good, so it is cleared on load. */
+try{store.set("showUndisclosed",0)}catch(e){}
+disclosureToggle=function(){
+  const el=$("#fUndisclosed");
+  if(el){const w=el.closest(".tog");if(w){const n=w.nextElementSibling;if(n&&n.classList.contains("src"))n.remove();w.remove()}}
+};
