@@ -2,14 +2,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AltMarket</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Geist:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Geist:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@400;500;600&display=swap">
 <style>
 
 :root{
   --ground:#F7F6F2; --surface:#FFFFFF; --sunk:#F0EEE9; --ink:#1C1B1F; --ink2:#5B5A60; --ink3:#8E8C94; --line:#E5E2EA; --line2:#D6D2DE;
   --acc:#7C5CFF; --acc-ink:#5B3FE0; --tint:#EEEBFA; --tint2:#E0D9F5; --bar:#141316; --bar-ink:#F4F2F7;
   --up:#1F8A5B; --up-bg:#E3F3EA; --down:#C2413B; --down-bg:#F9E6E4; --bench:#B9B5C3;
-  --serif:"Newsreader","Iowan Old Style","Georgia",serif; --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --serif:"Newsreader","Iowan Old Style","Georgia",serif; --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Sans Condensed","Roboto Condensed","Helvetica Neue",Arial,sans-serif; --code:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
   --r:6px; --shadow:0 1px 2px rgba(20,16,40,.05),0 8px 24px -12px rgba(20,16,40,.12);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -1177,7 +1177,7 @@ html{overflow-x:hidden}
 .pickrets .pr.on i{color:var(--acc-ink)}
 .pickrets .pr.vs{border-left:1px solid var(--line);margin-left:4px;padding-left:9px;min-width:72px}
 
-@media (max-width:980px){
+@media (max-width:1060px){
   .pickrow{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n add" "r r";gap:8px 10px}
   .pickrow .pickname{grid-area:n}
   .pickrow .pickrets{grid-area:r;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px 2px}
@@ -1301,7 +1301,7 @@ html{overflow-x:hidden}
 .pickcols .pr.on i{color:var(--acc-ink);font-weight:600}
 .picklist .pickrow:not(.pickcols) .pr i{display:none}
 .picklist .pickrow:not(.pickcols) .pr b{font-size:13.5px}
-@media (max-width:980px){
+@media (max-width:1060px){
   /* the strip wraps here, so a single header cannot align with it */
   .pickcols{display:none}
   .pickrets{grid-template-columns:repeat(5,minmax(0,1fr))}
@@ -1324,7 +1324,7 @@ html{overflow-x:hidden}
 /* AUM joins the strip, so the period cells narrow to keep the row on one line */
 .pickrets{grid-template-columns:90px repeat(8,56px) 80px}
 .pickrets .pr.aum b{white-space:nowrap}
-@media (max-width:980px){.pickrets{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (max-width:1060px){.pickrets{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media (max-width:560px){.pickrets{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 
 /* Figures read as data, not as code: IBM Plex Mono is drawn for dense numeric
@@ -1332,6 +1332,24 @@ html{overflow-x:hidden}
    at this size. Tabular widths keep decimals aligned down a column. */
 .num{font-variant-numeric:tabular-nums lining-nums;letter-spacing:0;font-feature-settings:"zero" 1}
 .ret,.pickrets .pr b,.aumc,.mgrtable td.num,.leaguetable td.num{letter-spacing:-.005em}
+
+/* ── Bloomberg-style condensed figures ──
+   A condensed sans, not a monospace: it is what terminals actually use, and it
+   buys horizontal room in dense tables. Tabular figures keep columns aligned
+   even though the face is proportional. Condensed reads a shade smaller at the
+   same point size, so data cells gain half a pixel and a touch of weight. */
+.num,.ret,.pickrets .pr b,.aumc{font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:"zero" 1;letter-spacing:0}
+.tbl .ret,.tbl .aumc{font-size:14.5px;font-weight:500}
+.mgrtable td.num,.leaguetable td.num,.ctbl.fixed td.num{font-weight:500}
+.pickrets .pr b{font-size:14px;font-weight:500}
+
+/* identifiers stay monospaced — an email or a registration number is read
+   character by character, which is the one job a condensed sans is bad at */
+.card .sel,.regcard .sel{font-family:var(--code)}
+
+/* the one-line strip needs ~918px of panel once AUM is in it, so the wrap
+   point moved from 980 to 1060 — below that the row clipped its Add button */
 
 </style>
 
