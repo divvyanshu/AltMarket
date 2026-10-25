@@ -1057,3 +1057,15 @@ html{overflow-x:hidden}
 .activef .chip button:hover{opacity:1}
 .activef .linkbtn{font-size:12.5px;margin-left:2px}
 @media (max-width:560px){.activef .chip{max-width:100%}}
+
+/* AUM joins the strip, so the period cells narrow to keep the row on one line */
+.pickrets{grid-template-columns:90px repeat(8,56px) 80px}
+.pickrets .pr.aum b{white-space:nowrap}
+@media (max-width:980px){.pickrets{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (max-width:560px){.pickrets{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+
+/* Figures read as data, not as code: IBM Plex Mono is drawn for dense numeric
+   tables — open counters, unambiguous 0/6/8/9 — where Geist Mono reads techy
+   at this size. Tabular widths keep decimals aligned down a column. */
+.num{font-variant-numeric:tabular-nums lining-nums;letter-spacing:0;font-feature-settings:"zero" 1}
+.ret,.pickrets .pr b,.aumc,.mgrtable td.num,.leaguetable td.num{letter-spacing:-.005em}

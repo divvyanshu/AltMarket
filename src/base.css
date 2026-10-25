@@ -3,7 +3,7 @@
   --ground:#F7F6F2; --surface:#FFFFFF; --sunk:#F0EEE9; --ink:#1C1B1F; --ink2:#5B5A60; --ink3:#8E8C94; --line:#E5E2EA; --line2:#D6D2DE;
   --acc:#7C5CFF; --acc-ink:#5B3FE0; --tint:#EEEBFA; --tint2:#E0D9F5; --bar:#141316; --bar-ink:#F4F2F7;
   --up:#1F8A5B; --up-bg:#E3F3EA; --down:#C2413B; --down-bg:#F9E6E4; --bench:#B9B5C3;
-  --serif:"Newsreader","Iowan Old Style","Georgia",serif; --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --serif:"Newsreader","Iowan Old Style","Georgia",serif; --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
   --r:6px; --shadow:0 1px 2px rgba(20,16,40,.05),0 8px 24px -12px rgba(20,16,40,.12);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){

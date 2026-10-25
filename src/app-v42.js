@@ -215,7 +215,7 @@ pickerHTML=function(){
    </div>
    <div class="picklist">${rows.length?`<div class="pickrow pickcols" aria-hidden="true">
      <div class="pickname"></div>
-     <div class="pickrets">${PICK_PERIODS.map(i=>{
+     <div class="pickrets"><span class="pr aum${PICK.sort==="aum"?" on":""}"><i>AUM (₹)</i></span>${PICK_PERIODS.map(i=>{
        const on=PICK_SORTK[PICK.sort]===i;
        return `<span class="pr${on?" on":""}"><i>${esc(PER[i]==="Since inc."?"S.Inc":PER[i])}</i></span>`}).join("")}
       <span class="pr vs"><i>vs index 3Y</i></span></div>
@@ -224,7 +224,7 @@ pickerHTML=function(){
      return `<div class="pickrow">
      <div class="pickname"><b>${esc(deCaps(f.n))}</b><span>${esc(houseName(f.p)||f.m||"Manager not listed")}</span>
       <div class="stybadges">${styleTags(f,2)}</div></div>
-     <div class="pickrets">${PICK_PERIODS.map(i=>{
+     <div class="pickrets"><span class="pr aum${PICK.sort==="aum"?" on":""}"><i>AUM (₹)</i><b class="num">${f.aum!=null?esc(fmtCr(f.aum)):'<span class="na">—</span>'}</b></span>${PICK_PERIODS.map(i=>{
        const v=ret(f,i),on=si===i;
        return `<span class="pr${on?" on":""}"><i>${esc(PER[i]==="Since inc."?"S.Inc":PER[i])}</i><b class="num">${v==null?'<span class="na">—</span>':pctT(v)}${implausible(f,i)?'<span class="flagq" title="As filed, but implausible for the product">?</span>':""}</b></span>`}).join("")}
       <span class="pr vs"><i>vs index 3Y</i><b class="num">${alpha(f,5)==null?'<span class="na">—</span>':`<span style="color:var(--${alpha(f,5)>=0?"up":"down"})">${alpha(f,5)>=0?"▲":"▼"} ${Math.abs(alpha(f,5)).toFixed(1)}</span>`}</b></span>

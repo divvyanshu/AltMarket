@@ -2,14 +2,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AltMarket</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Geist:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 
 :root{
   --ground:#F7F6F2; --surface:#FFFFFF; --sunk:#F0EEE9; --ink:#1C1B1F; --ink2:#5B5A60; --ink3:#8E8C94; --line:#E5E2EA; --line2:#D6D2DE;
   --acc:#7C5CFF; --acc-ink:#5B3FE0; --tint:#EEEBFA; --tint2:#E0D9F5; --bar:#141316; --bar-ink:#F4F2F7;
   --up:#1F8A5B; --up-bg:#E3F3EA; --down:#C2413B; --down-bg:#F9E6E4; --bench:#B9B5C3;
-  --serif:"Newsreader","Iowan Old Style","Georgia",serif; --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --serif:"Newsreader","Iowan Old Style","Georgia",serif; --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
   --r:6px; --shadow:0 1px 2px rgba(20,16,40,.05),0 8px 24px -12px rgba(20,16,40,.12);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -1320,6 +1320,18 @@ html{overflow-x:hidden}
 .activef .chip button:hover{opacity:1}
 .activef .linkbtn{font-size:12.5px;margin-left:2px}
 @media (max-width:560px){.activef .chip{max-width:100%}}
+
+/* AUM joins the strip, so the period cells narrow to keep the row on one line */
+.pickrets{grid-template-columns:90px repeat(8,56px) 80px}
+.pickrets .pr.aum b{white-space:nowrap}
+@media (max-width:980px){.pickrets{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (max-width:560px){.pickrets{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+
+/* Figures read as data, not as code: IBM Plex Mono is drawn for dense numeric
+   tables — open counters, unambiguous 0/6/8/9 — where Geist Mono reads techy
+   at this size. Tabular widths keep decimals aligned down a column. */
+.num{font-variant-numeric:tabular-nums lining-nums;letter-spacing:0;font-feature-settings:"zero" 1}
+.ret,.pickrets .pr b,.aumc,.mgrtable td.num,.leaguetable td.num{letter-spacing:-.005em}
 
 </style>
 
@@ -4066,7 +4078,7 @@ pickerHTML=function(){
    </div>
    <div class="picklist">${rows.length?`<div class="pickrow pickcols" aria-hidden="true">
      <div class="pickname"></div>
-     <div class="pickrets">${PICK_PERIODS.map(i=>{
+     <div class="pickrets"><span class="pr aum${PICK.sort==="aum"?" on":""}"><i>AUM (₹)</i></span>${PICK_PERIODS.map(i=>{
        const on=PICK_SORTK[PICK.sort]===i;
        return `<span class="pr${on?" on":""}"><i>${esc(PER[i]==="Since inc."?"S.Inc":PER[i])}</i></span>`}).join("")}
       <span class="pr vs"><i>vs index 3Y</i></span></div>
@@ -4075,7 +4087,7 @@ pickerHTML=function(){
      return `<div class="pickrow">
      <div class="pickname"><b>${esc(deCaps(f.n))}</b><span>${esc(houseName(f.p)||f.m||"Manager not listed")}</span>
       <div class="stybadges">${styleTags(f,2)}</div></div>
-     <div class="pickrets">${PICK_PERIODS.map(i=>{
+     <div class="pickrets"><span class="pr aum${PICK.sort==="aum"?" on":""}"><i>AUM (₹)</i><b class="num">${f.aum!=null?esc(fmtCr(f.aum)):'<span class="na">—</span>'}</b></span>${PICK_PERIODS.map(i=>{
        const v=ret(f,i),on=si===i;
        return `<span class="pr${on?" on":""}"><i>${esc(PER[i]==="Since inc."?"S.Inc":PER[i])}</i><b class="num">${v==null?'<span class="na">—</span>':pctT(v)}${implausible(f,i)?'<span class="flagq" title="As filed, but implausible for the product">?</span>':""}</b></span>`}).join("")}
       <span class="pr vs"><i>vs index 3Y</i><b class="num">${alpha(f,5)==null?'<span class="na">—</span>':`<span style="color:var(--${alpha(f,5)>=0?"up":"down"})">${alpha(f,5)>=0?"▲":"▼"} ${Math.abs(alpha(f,5)).toFixed(1)}</span>`}</b></span>
