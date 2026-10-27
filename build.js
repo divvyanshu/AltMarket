@@ -6,7 +6,7 @@ let app=R("app.js");
 // share scope, but before the init block, so their consts exist when init runs.
 // Later function declarations win, so app-v32 intentionally overrides earlier versions.
 if(!app.includes("/*MODULES*/"))throw new Error("app.js: /*MODULES*/ marker not found");
-const MODULES=["app-extra.js","app-v32.js","app-v33.js","app-v34.js","app-v37.js","app-v39.js","app-v41.js","app-v42.js","app-v43.js","investors.js","app-v44.js","app-v45.js","app-v46.js","app-v47.js","app-v48.js","app-v49.js","app-v50.js"];
+const MODULES=["app-extra.js","app-v32.js","app-v33.js","app-v34.js","app-v37.js","app-v39.js","app-v41.js","app-v42.js","app-v43.js","investors.js","app-v44.js","app-v45.js","app-v46.js","app-v47.js","app-v48.js","app-v49.js","app-v50.js","app-v51.js"];
 app=app.replace("/*MODULES*/",()=>MODULES.map(R).join("\n"));
 const out=R("shell.html")
   .replace("/*BASE_CSS*/",()=>R("base.css"))
