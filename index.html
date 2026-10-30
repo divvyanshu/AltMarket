@@ -1351,6 +1351,7 @@ html{overflow-x:hidden}
 /* the one-line strip needs ~918px of panel once AUM is in it, so the wrap
    point moved from 980 to 1060 — below that the row clipped its Add button */
 .askkind{margin:10px 0 0;max-width:62ch}
+.asat{color:var(--ink3)}
 
 </style>
 
@@ -2191,7 +2192,9 @@ const GOALS=[
  ["Lower ticket","Start from ₹10 lakh","Specialised Investment Funds: long-short at a mutual-fund-sized minimum.",s=>{s.types.add("SIF")}]
 ];
 function renderGoals(){$("#goals").innerHTML=GOALS.map((g,i)=>{const st=defaultState();g[3](st);const n=filterWith(st).length;return `<button class="goal" type="button" data-goal="${i}"><small>${g[0]}</small><b>${g[1]}</b><span>${g[2]}</span><span class="gc">${n.toLocaleString("en-IN")} funds →</span></button>`}).join("")}
-function statsHTML(){const c=counts("t"),withR=DATA.filter(f=>f.r).length,mgr=new Set(DATA.map(f=>f.p).filter(Boolean)).size;
+function statsHTML(){const c=counts("t"),/* a scheme with an all-null return array has no history; count real values
+     so this agrees with the Market pulse sample below it */
+    withR=DATA.filter(f=>f.r&&f.r.some(v=>v!=null&&v!==0)).length,mgr=new Set(DATA.map(f=>f.p).filter(Boolean)).size;
   return [[DATA.length,"strategies tracked"],[mgr,"named portfolio managers"],[withR,"with return history"],[(c.GIFT||0)+(c.SIF||0)+(c.INTL||0),"GIFT City, SIF & global"]].map(x=>`<div><b class="num" data-count="${x[0]}">${x[0].toLocaleString("en-IN")}</b><span>${x[1]}</span></div>`).join("")}
 function countUp(root){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;$$("[data-count]").filter(e=>root.contains(e)).forEach(e=>{const to=+e.dataset.count,t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/1100),v=Math.round(to*(1-Math.pow(1-p,3)));e.textContent=v.toLocaleString("en-IN");if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 function renderHero(){
@@ -5081,13 +5084,10 @@ renderList=function(){
   return r;
 };
 
-/* the hero line counts GIFT City and SIF, which are still tracked even though
-   they are not in the comparison table */
-var _statsProd=statsHTML;
-statsHTML=function(){
-  const h=_statsProd.apply(this,arguments);
-  return h.replace(/strategies tracked/,"in the screener");
-};
+/* The hero figure counts every strategy AltMarket tracks, including the GIFT
+   City and International schemes the screener holds back — so "strategies
+   tracked" is what it is. An earlier relabel to "in the screener" put a wrong
+   caption on a right number: it read 2,434 while the screener showed 2,084. */
 
 /* ─── the disclosure toggle comes off the screener ───
    The switch and its explanation were a maintainer's note on a visitor's page.
@@ -5232,6 +5232,58 @@ labelSearchAndAssistant();
 var _applyLabel=apply;
 apply=function(){const r=_applyLabel.apply(this,arguments);labelSearchAndAssistant();return r};
 
+
+/* ─── v5.2 — say what Market pulse is made of, and when ───
+
+   The section carried one static line claiming 1,202 strategies. That number
+   was hardcoded and had drifted — the real figure moves every time the data is
+   rebuilt or the screener's universe changes. Worse, the only date on the page
+   was the day the listing was scraped, while the returns in both charts come
+   from SEBI's monthly report for an earlier month. A reader comparing "74% beat
+   their index" against today's market had no way to know how stale it was.
+
+   The note is now computed: the month the returns were filed for, how many
+   strategies are behind the charts, the basis of the figures, and the line SEBI
+   requires. */
+
+function pulseAsOfMonth(){
+  const p=(window.__FUNDS_META&&window.__FUNDS_META.sebiAsOf)||"";
+  return p?perLabel(p):"";
+}
+function pulseSample(){
+  return DATA.filter(f=>f.r&&f.r.some(v=>v!=null&&v!==0)).length;
+}
+
+function pulseProvenance(){
+  const month=pulseAsOfMonth(),n=pulseSample();
+  const when=month?`as filed for <b>${esc(month)}</b>`:"as most recently filed";
+  return `Returns are those each manager filed with SEBI in its Portfolio Manager Monthly Report, ${when} — `+
+    `time-weighted, annualised beyond one year, net of fees and before your own tax, `+
+    `and each set against the benchmark the scheme itself chose. `+
+    `Built from the ${n.toLocaleString("en-IN")} strategies that publish a return history. `+
+    `Performance information shown here is not verified by SEBI.`;
+}
+
+function refreshPulseNote(){
+  const grid=$("#pulse");if(!grid)return;
+  const note=grid.parentElement&&grid.parentElement.querySelector(".note");
+  if(note)note.innerHTML=pulseProvenance();
+  /* and a dateline on each chart, where the claim is actually made */
+  if(!pulseAsOfMonth())return;
+  grid.querySelectorAll(".ccard").forEach(card=>{
+    const foot=card.querySelector(".foot");
+    if(foot&&!/as at/i.test(foot.textContent))
+      foot.insertAdjacentHTML("beforeend",` <span class="asat">As at ${esc(pulseAsOfMonth())}.</span>`);
+  });
+}
+
+var _renderPulseMeta=renderPulse;
+renderPulse=function(){
+  const r=_renderPulseMeta.apply(this,arguments);
+  refreshPulseNote();
+  return r;
+};
+
 $("#examples").insertAdjacentHTML("beforeend",EX.map(x=>`<button type="button" data-ex="${esc(x)}">${esc(x)}</button>`).join(""));
 $("#shortCt").textContent=short.size;
 $("#findings").innerHTML=FIND.map(f=>`<article class="finding"><small>${f[0]}</small><h4>${f[1]}</h4><p>${f[2]}</p><div class="how"><b>In AltMarket:</b> ${f[3]}</div></article>`).join("");
@@ -5239,7 +5291,7 @@ buildMenus();
 $("#homeArts").innerHTML=window.AV_ARTICLES.slice(0,3).map(artCard).join("");
 
 fetch("funds.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(j=>{
-  DATA=j.funds;HOUSES=j.houses||{};cmp=cmp.filter(s=>DATA.some(f=>f.s===s));
+  DATA=j.funds;HOUSES=j.houses||{};/* keep the provenance the payload carries; v5.2 dates Market pulse from it */window.__FUNDS_META={asOf:j.asOf,sebiAsOf:j.sebiAsOf,sheetAsOf:j.sheetAsOf,source:j.source};cmp=cmp.filter(s=>DATA.some(f=>f.s===s));
   buildFilters();buildMgr();$("#heroStats").innerHTML=statsHTML();$("#annCount").textContent=DATA.length.toLocaleString("en-IN")+" funds";{const b=$("#exploreBtn");if(b)b.textContent="Explore "+DATA.length.toLocaleString("en-IN")+" funds";const cs=$("#chatSub");if(cs)cs.textContent="Searches "+DATA.length.toLocaleString("en-IN")+" schemes · books a callback"}
   renderHero();renderTicker();renderGoals();renderPulse();apply();renderTray();countUp(document.body);
   const h=(location.hash||"").slice(1);if(h&&h!=="explore")go(h);else observePlay();

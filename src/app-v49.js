@@ -54,13 +54,10 @@ renderList=function(){
   return r;
 };
 
-/* the hero line counts GIFT City and SIF, which are still tracked even though
-   they are not in the comparison table */
-var _statsProd=statsHTML;
-statsHTML=function(){
-  const h=_statsProd.apply(this,arguments);
-  return h.replace(/strategies tracked/,"in the screener");
-};
+/* The hero figure counts every strategy AltMarket tracks, including the GIFT
+   City and International schemes the screener holds back — so "strategies
+   tracked" is what it is. An earlier relabel to "in the screener" put a wrong
+   caption on a right number: it read 2,434 while the screener showed 2,084. */
 
 /* ─── the disclosure toggle comes off the screener ───
    The switch and its explanation were a maintainer's note on a visitor's page.

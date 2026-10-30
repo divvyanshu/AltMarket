@@ -313,7 +313,9 @@ const GOALS=[
  ["Lower ticket","Start from ₹10 lakh","Specialised Investment Funds: long-short at a mutual-fund-sized minimum.",s=>{s.types.add("SIF")}]
 ];
 function renderGoals(){$("#goals").innerHTML=GOALS.map((g,i)=>{const st=defaultState();g[3](st);const n=filterWith(st).length;return `<button class="goal" type="button" data-goal="${i}"><small>${g[0]}</small><b>${g[1]}</b><span>${g[2]}</span><span class="gc">${n.toLocaleString("en-IN")} funds →</span></button>`}).join("")}
-function statsHTML(){const c=counts("t"),withR=DATA.filter(f=>f.r).length,mgr=new Set(DATA.map(f=>f.p).filter(Boolean)).size;
+function statsHTML(){const c=counts("t"),/* a scheme with an all-null return array has no history; count real values
+     so this agrees with the Market pulse sample below it */
+    withR=DATA.filter(f=>f.r&&f.r.some(v=>v!=null&&v!==0)).length,mgr=new Set(DATA.map(f=>f.p).filter(Boolean)).size;
   return [[DATA.length,"strategies tracked"],[mgr,"named portfolio managers"],[withR,"with return history"],[(c.GIFT||0)+(c.SIF||0)+(c.INTL||0),"GIFT City, SIF & global"]].map(x=>`<div><b class="num" data-count="${x[0]}">${x[0].toLocaleString("en-IN")}</b><span>${x[1]}</span></div>`).join("")}
 function countUp(root){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;$$("[data-count]").filter(e=>root.contains(e)).forEach(e=>{const to=+e.dataset.count,t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/1100),v=Math.round(to*(1-Math.pow(1-p,3)));e.textContent=v.toLocaleString("en-IN");if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 function renderHero(){
@@ -688,7 +690,7 @@ buildMenus();
 $("#homeArts").innerHTML=window.AV_ARTICLES.slice(0,3).map(artCard).join("");
 
 fetch("funds.json").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(j=>{
-  DATA=j.funds;HOUSES=j.houses||{};cmp=cmp.filter(s=>DATA.some(f=>f.s===s));
+  DATA=j.funds;HOUSES=j.houses||{};/* keep the provenance the payload carries; v5.2 dates Market pulse from it */window.__FUNDS_META={asOf:j.asOf,sebiAsOf:j.sebiAsOf,sheetAsOf:j.sheetAsOf,source:j.source};cmp=cmp.filter(s=>DATA.some(f=>f.s===s));
   buildFilters();buildMgr();$("#heroStats").innerHTML=statsHTML();$("#annCount").textContent=DATA.length.toLocaleString("en-IN")+" funds";{const b=$("#exploreBtn");if(b)b.textContent="Explore "+DATA.length.toLocaleString("en-IN")+" funds";const cs=$("#chatSub");if(cs)cs.textContent="Searches "+DATA.length.toLocaleString("en-IN")+" schemes · books a callback"}
   renderHero();renderTicker();renderGoals();renderPulse();apply();renderTray();countUp(document.body);
   const h=(location.hash||"").slice(1);if(h&&h!=="explore")go(h);else observePlay();

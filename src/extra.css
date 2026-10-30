@@ -1088,3 +1088,4 @@ html{overflow-x:hidden}
 /* the one-line strip needs ~918px of panel once AUM is in it, so the wrap
    point moved from 980 to 1060 — below that the row clipped its Add button */
 .askkind{margin:10px 0 0;max-width:62ch}
+.asat{color:var(--ink3)}
