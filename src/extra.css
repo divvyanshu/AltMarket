@@ -1089,3 +1089,14 @@ html{overflow-x:hidden}
    point moved from 980 to 1060 — below that the row clipped its Add button */
 .askkind{margin:10px 0 0;max-width:62ch}
 .asat{color:var(--ink3)}
+
+/* v5.3 — venture capital: grouped routes */
+.invgroup{margin:34px 0 0;font-size:19px;font-weight:500;letter-spacing:-.01em}
+.note.nmt{margin-top:6px}
+.ecolist{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;
+  margin:16px 0 20px;padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface2,var(--surface))}
+.ecolist dt{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.ecolist dd{margin:5px 0 0;font-size:13px;color:var(--ink2);line-height:1.55}
+.ecoN{font-family:var(--mono);font-size:11px;color:var(--ink3);border:1px solid var(--line2);
+  border-radius:20px;padding:1px 7px}
+@media(max-width:700px){.ecolist{grid-template-columns:1fr;padding:14px}}
